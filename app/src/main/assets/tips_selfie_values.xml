@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <items>
+	<item>
+ 	    <tipsID>100</tipsID>
+ 	    <tipsURL>http://srfeed.com/res/pics/Tip2.jpg</tipsURL>
+ 	    <tipsAndroidOrder>100</tipsAndroidOrder>
+ 	    <tipsAppleOrder>100</tipsAppleOrder>
+ 	</item>
+	<item>
+ 	    <tipsID>102</tipsID>
+ 	    <tipsURL>http://www.srfeed.com/res/pics/Tip1.jpg</tipsURL>
+ 	    <tipsAndroidOrder>200</tipsAndroidOrder>
+ 	    <tipsAppleOrder>200</tipsAppleOrder>
+ 	</item>
+</items>

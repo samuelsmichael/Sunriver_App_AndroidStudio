@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+		<PreferenceCategory
+			android:title="Urls"
+		>
+			  <EditTextPreference
+			  	android:key="`TimerIntervalInSeconds"
+			  	android:defaultValue="60"
+			  	android:title="Emergency Timer Interval in Seconds"
+			  	android:summary="Each period of this amount of time, the system will check the Sunriver Emergency Alert database for updates"
+			  ></EditTextPreference>
+   			  <EditTextPreference
+			  	android:key="urltipsjson"
+			  	android:defaultValue="@string/urltipsjson"
+			  	android:title="Tips Data URL"
+			  	android:summary="URL used to fetch the Tips data"
+			  ></EditTextPreference>
+			<EditTextPreference
+			  	android:key="urlselfiejson"
+			  	android:defaultValue="@string/urlselfiejson"
+			  	android:title="Selfie Data URL"
+			  	android:summary="URL used to fetch the Selfie data"
+			  ></EditTextPreference>
+		      <EditTextPreference
+			  	android:key="urldidyouknowjson"
+			  	android:defaultValue="@string/urldidyouknowjson"
+			  	android:title="Did You know Data URL"
+			  	android:summary="URL used to fetch the Did You Know data"
+			  ></EditTextPreference>
+		      <EditTextPreference
+			  	android:key="urlwelcomejson"
+			  	android:defaultValue="@string/urlwelcomejson"
+			  	android:title="Welcome Data URL"
+			  	android:summary="URL used to fetch the Welcome data"
+			  ></EditTextPreference>
+		      <EditTextPreference
+			  	android:key="urlemergencyjson"
+			  	android:defaultValue="@string/urlemergencyjson"
+			  	android:title="Emergency Data URL"
+			  	android:summary="URL used to fetch the Emergency data"
+			  ></EditTextPreference>
+		      <EditTextPreference
+			  	android:key="urlemergencymapsjson"
+			  	android:defaultValue="@string/urlemergencymapsjson"
+			  	android:title="EmergencyMaps Data URL"
+			  	android:summary="URL used to fetch the EmergencyMaps data"
+			  ></EditTextPreference>
+		      <EditTextPreference
+			  	android:key="urlalertjson"
+			  	android:defaultValue="@string/urlalertjson"
+			  	android:title="Alert Data URL"
+			  	android:summary="URL used to fetch the Alert data"
+			  ></EditTextPreference>
+		      <EditTextPreference
+			  	android:key="urlupdatejson"
+			  	android:defaultValue="@string/urlupdatejson"
+			  	android:title="Update Data URL"
+			  	android:summary="URL used to fetch the Update data"
+			  ></EditTextPreference>
+		      <EditTextPreference
+			  	android:key="urlhospitalityjson"
+			  	android:defaultValue="@string/urlhospitalityjson"
+			  	android:title="Hospitality Data URL"
+			  	android:summary="URL used to fetch the Hospitality data"
+			  ></EditTextPreference>
+			  <EditTextPreference
+			  	android:key="urlactivityjson"
+			  	android:defaultValue="@string/urlactivityjson"
+			  	android:title="Activity json Data URL"
+			  	android:summary="URL used to fetch the Activity data as json"
+			  ></EditTextPreference>
+			  <EditTextPreference
+			  	android:key="urlfindhomejson"
+			  	android:defaultValue="@string/urlfindhomejson"
+			  	android:title="Find Home json Data URL"
+			  	android:summary="URL used to fetch the Find Home data as json"
+			  ></EditTextPreference>
+			  <EditTextPreference
+			  	android:key="urlservicesjson"
+			  	android:defaultValue="@string/urlservicesjson"
+			  	android:title="Services json Data URL"
+			  	android:summary="URL used to fetch the Services data as json"
+			  ></EditTextPreference>
+			  <EditTextPreference
+			    android:key="urlmapjson"
+			  	android:defaultValue="@string/urlmapjson"
+			  	android:title="Map Data URL json"
+			  	android:summary="URL used to fetch the Map data json"			      
+			      >
+			  </EditTextPreference>			  			  			  			  
+			  <EditTextPreference
+			  	android:key="urlcalendarjson"
+			  	android:defaultValue="@string/urlcalendarjson"
+			  	android:title="Events json Data URL"
+			  	android:summary="URL used to fetch the Events data as json"
+			  ></EditTextPreference>
+			  <EditTextPreference
+			  	android:key="urlgislayersjson"
+			  	android:defaultValue="@string/urlgislayersjson"
+			  	android:title="GIS Layers json Data URL"
+			  	android:summary="URL used to fetch the GIS Layers data as json"
+			  ></EditTextPreference>
+	</PreferenceCategory>    
+	<PreferenceCategory
+		android:title="Urls"
+	>
+	  <EditTextPreference
+	  	android:key="emergencytimerintervalinseconds"
+	  	android:defaultValue="@string/emergencytimerintervalinseconds"
+	  	android:title="Emergency Timer Interval in Seconds"
+	  	android:summary="Each period of this amount of time, the system will check the Sunriver Emergency Alert database for updates"
+	  ></EditTextPreference>
+	  <CheckBoxPreference
+		  	android:key="AutoStartOnBoot"
+		  	android:defaultValue="true"
+		  	android:title="@string/defaultstartonreboot_title_list_preference"
+		  	android:summary="@string/startonreboot_summary_list_preference"
+	  ></CheckBoxPreference>
+	  	    
+	</PreferenceCategory>    
+	    		
+
+</PreferenceScreen>

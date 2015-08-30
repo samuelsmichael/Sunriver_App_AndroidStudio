@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <items>
+  	<item>
+ 	    <id>100</id>
+ 	    <name>Maps</name>
+ 	    <description>Navigate our roads &amp; pathways</description>
+ 	    <iconname>sr_map_big</iconname>
+ 	    <isstylemarquee>false</isstylemarquee>
+ 	</item>
+  	<item>
+ 	    <id>600</id>
+ 	    <name>Eats &amp; Treats</name>
+ 	    <description>More than 20 dining options</description>
+ 	    <iconname>eatsandtreatsnew</iconname>
+ 	    <isstylemarquee>false</isstylemarquee>
+ 	</item>
+	<item>
+ 	    <id>110</id>
+ 	    <name>Shopping</name>
+ 	    <description>Shop &#39;till you drop</description>
+ 	    <iconname>sr_shopping_big</iconname>
+ 	    <isstylemarquee>false</isstylemarquee>
+ 	</item>
+ 	<item>
+ 	    <id>300</id>
+ 	    <name>Event Calendar</name>
+ 	    <description>What's happening in Sunriver</description>
+ 	    <iconname>sr_calendar_big</iconname>
+ 	    <isstylemarquee>false</isstylemarquee> 	    
+ 	</item>
+ 	<item>
+ 	    <id>400</id>
+ 	    <name>Recreational Activities</name>
+ 	    <description>Plan your day of fun</description>
+ 	    <iconname>activity</iconname>
+ 	    <isstylemarquee>false</isstylemarquee>
+ 	</item>
+ 	<item>
+ 	    <id>1000</id>
+ 	    <name>Find My Home</name>
+ 	    <description>Pinpoint my Sunriver address</description>
+ 	    <iconname>findhome_big</iconname>
+ 	    <isstylemarquee>false</isstylemarquee>
+ 	</item>
+ 	<item>
+ 	    <id>800</id>
+ 	    <name>Sunriver Selfie</name>
+ 	    <description>Snap a pick &amp; share</description>
+ 	    <iconname>selfie_big</iconname>
+ 	    <isstylemarquee>false</isstylemarquee>
+ 	</item>
+  	<item>
+ 	    <id>700</id>
+ 	    <name>Services</name>
+ 	    <description>Emergency, post office, gas, real estate &amp; more</description>
+ 	    <iconname>services_big</iconname>
+ 	    <isstylemarquee>false</isstylemarquee> 	    	    
+ 	</item>
+ 	<item>
+ 	    <id>120</id>
+ 	    <name>Where To Stay</name>
+ 	    <description>Lodging options</description>
+ 	    <iconname>lodging</iconname>
+ 	    <isstylemarquee>false</isstylemarquee> 	    	    
+ 	</item>
+  	<item>
+ 	    <id>200</id>
+ 	    <name>Weather &amp; Webcams</name>
+ 	    <description>Current local weather &amp; webcams</description>
+ 	    <iconname>sr_weather_big</iconname>
+ 	    <isstylemarquee>false</isstylemarquee> 	    	    
+ 	</item>
+  	<item>
+ 	    <id>500</id>
+ 	    <name>QR Code Reader</name>
+ 	    <description>Scan codes for more information</description>
+ 	    <iconname>sr_qr_big</iconname>
+ 	    <isstylemarquee>false</isstylemarquee> 	    
+ 	</item>
+</items>
