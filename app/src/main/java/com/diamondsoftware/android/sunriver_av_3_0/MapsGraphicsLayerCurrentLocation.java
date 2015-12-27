@@ -7,15 +7,21 @@ import android.content.SharedPreferences.Editor;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.esri.android.map.MapView;
 import com.esri.core.geometry.Point;
 import com.esri.core.symbol.SimpleMarkerSymbol.STYLE;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesClient;
-import com.google.android.gms.location.LocationClient;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.location.LocationServices;
 /**
  * Manages the maps graphics data for the Current Location.  Uses Google's Play Services location api to set up a
  * location listener; and requests updates every UPDATE_INTERVAL_IN_SECONDS seconds.  If the location changes, then the 
@@ -24,20 +30,19 @@ import com.google.android.gms.location.LocationRequest;
  *
  */
 public class MapsGraphicsLayerCurrentLocation extends MapsGraphicsLayer  implements
-	GooglePlayServicesClient.ConnectionCallbacks,
-	GooglePlayServicesClient.OnConnectionFailedListener,
-    LocationListener {
+		GoogleApiClient.ConnectionCallbacks, OnConnectionFailedListener,LocationListener  {
 
    // Global constants
     /*
      * Define a request code to send to Google Play services
      * This code is returned in Activity.onActivityResult
      */
+   protected static final String TAG = "MapsGraphicsLayerCurrentLocation";
     private final static int
             CONNECTION_FAILURE_RESOLUTION_REQUEST = 8319;
 	public final static String POINT_LATITUDE_KEY_ON_OPENING_MAPS="point_latitude_key_ON_OPENING_MAPS";
 	public final static String POINT_LONGITUDE_KEY_ON_OPENING_MAPS="point_longitude_key_ON_OPENING_MAPS";
-	private LocationClient mLocationClient=null;
+	private GoogleApiClient mLocationClient=null;
     private Location mCurrentLocation=null;
     private int mCurrentGraphicsItem=-1;
     private LocationRequest mLocationRequest;
@@ -61,7 +66,13 @@ public class MapsGraphicsLayerCurrentLocation extends MapsGraphicsLayer  impleme
 			boolean updateGraphics) {
 		super(activity, mapView, color, size, style, locationType,
 				updateGraphics, null);
-		mLocationClient= new LocationClient(mActivity, this, this);
+		if(mLocationClient==null) {
+			mLocationClient = new GoogleApiClient.Builder(activity)
+					.addConnectionCallbacks(this)
+					.addOnConnectionFailedListener(this)
+					.addApi(LocationServices.API)
+					.build();
+		}
         // Create the LocationRequest object
         mLocationRequest = LocationRequest.create();
         // Use high accuracy
@@ -86,13 +97,10 @@ public class MapsGraphicsLayerCurrentLocation extends MapsGraphicsLayer  impleme
 		return true;
 	}
 
-	@Override
-	public void onConnectionFailed(ConnectionResult arg0) {
-	}
 
 	@Override
-	public void onConnected(Bundle arg0) {
-	    mCurrentLocation = mLocationClient.getLastLocation();
+	public void onConnected(Bundle arg0) throws SecurityException {
+	    mCurrentLocation =  LocationServices.FusedLocationApi.getLastLocation(mLocationClient);
 	    if(mCurrentLocation!=null) {
 	    	// This is to make it so I can test in Denver, but it looks like I'm in Sunriver.
 			if(mCurrentLocation.getLongitude()>-110) {
@@ -107,7 +115,7 @@ public class MapsGraphicsLayerCurrentLocation extends MapsGraphicsLayer  impleme
 	// This is called when we've got a new location;
 	private void redrawGraphics() {
 		Point pnt2=new Point();
-		pnt2.setXY(mCurrentLocation.getLongitude(),mCurrentLocation.getLatitude());
+		pnt2.setXY(mCurrentLocation.getLongitude(), mCurrentLocation.getLatitude());
 		Point[] pointInArray = new Point[1];
 		pointInArray[0]=pnt2;
 		if(mUpdateGraphics) {
@@ -118,7 +126,7 @@ public class MapsGraphicsLayerCurrentLocation extends MapsGraphicsLayer  impleme
 		private Point mPoint;
 		private Point mPointGoogle;
 		
-		protected void onPostExecute(Boolean isFirstTime) {
+		protected void onPostExecute(Boolean isFirstTime) throws SecurityException {
 			if(mUpdateGraphics) {
 				((Maps)mActivity).hookCalledWhenGraphicsLayerIsUpdated(MapsGraphicsLayerCurrentLocation.this);
 				if(isFirstTime.booleanValue()) {
@@ -128,7 +136,8 @@ public class MapsGraphicsLayerCurrentLocation extends MapsGraphicsLayer  impleme
 					editor.commit();
 					((Maps)mActivity).centerMapAt(mPoint);
 					if(mLocationClient.isConnected()) {
-						mLocationClient.requestLocationUpdates(mLocationRequest, MapsGraphicsLayerCurrentLocation.this);
+						LocationServices.FusedLocationApi.requestLocationUpdates(
+								mLocationClient, mLocationRequest, MapsGraphicsLayerCurrentLocation.this);
 					}
 				}
 			}
@@ -152,7 +161,19 @@ public class MapsGraphicsLayerCurrentLocation extends MapsGraphicsLayer  impleme
 		}
 	}
 	@Override
-	public void onDisconnected() {
+	public void onConnectionFailed(ConnectionResult result) {
+		// Refer to the javadoc for ConnectionResult to see what error codes might be returned in
+		// onConnectionFailed.
+		Log.i(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
+	}
+
+
+	@Override
+	public void onConnectionSuspended(int cause) {
+		// The connection to Google Play services was lost for some reason. We call connect() to
+		// attempt to re-establish the connection.
+		Log.i(TAG, "Connection suspended");
+//		mLocationClient.connect();
 	}
 
 	@Override
@@ -165,18 +186,18 @@ public class MapsGraphicsLayerCurrentLocation extends MapsGraphicsLayer  impleme
 	}
 
 	@Override
-	public void onStop() {
+	public void onStop() throws SecurityException {
 		mGraphicsLayer.removeAll();
 		mCurrentGraphicsItem=-1;
 		if(mLocationClient!=null) {
 			if(mLocationClient.isConnected()) {
-				mLocationClient.removeLocationUpdates(this);
+				LocationServices.FusedLocationApi.removeLocationUpdates(
+						mLocationClient, MapsGraphicsLayerCurrentLocation.this);
 				mLocationClient.disconnect();
 			}
 		}
 	}
 
-	@Override
 	public void onLocationChanged(Location arg0) {
 		if(arg0!=null) {
 			/*

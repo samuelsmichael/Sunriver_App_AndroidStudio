@@ -1,13 +1,5 @@
 package com.diamondsoftware.android.sunriver_av_3_0;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesClient;
-import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
-import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
-import com.google.android.gms.location.LocationClient;
-import com.google.android.gms.location.LocationStatusCodes;
-import com.google.android.gms.location.LocationClient.OnRemoveGeofencesResultListener;
-
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -17,7 +9,13 @@ import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
-import java.util.Arrays;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.CommonStatusCodes;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.Result;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.location.LocationServices;
+
 import java.util.List;
 
 /**
@@ -31,10 +29,9 @@ import java.util.List;
  * RemoveGeofencesByIntent(). Everything else is done automatically.
  *
  */
-public class GeofenceRemover implements
-            ConnectionCallbacks,
-            OnConnectionFailedListener,
-            OnRemoveGeofencesResultListener {
+public class GeofenceRemover implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ResultCallback {
+
+    protected static final String TAG = "GeofenceRemover";
 
     // Storage for a context from the calling client
     private Context mContext;
@@ -43,7 +40,7 @@ public class GeofenceRemover implements
     private List<String> mCurrentGeofenceIds;
 
     // Stores the current instantiation of the location client
-    private LocationClient mLocationClient;
+    private GoogleApiClient mLocationClient;
 
     // The PendingIntent sent in removeGeofencesByIntent
     private PendingIntent mCurrentIntent;
@@ -157,12 +154,12 @@ public class GeofenceRemover implements
 
             // If removeGeofencesByIntent was called
             case INTENT :
-                mLocationClient.removeGeofences(mCurrentIntent, this);
+                LocationServices.GeofencingApi.removeGeofences(mLocationClient,mCurrentIntent).setResultCallback(this);
                 break;
 
             // If removeGeofencesById was called
             case LIST :
-                mLocationClient.removeGeofences(mCurrentGeofenceIds, this);
+                LocationServices.GeofencingApi.removeGeofences(mLocationClient,mCurrentGeofenceIds).setResultCallback(this);
                 break;
         }
     }
@@ -180,29 +177,28 @@ public class GeofenceRemover implements
      *
      * @return A LocationClient object
      */
-    private GooglePlayServicesClient getLocationClient() {
+    private GoogleApiClient getLocationClient() {
         if (mLocationClient == null) {
+            mLocationClient = new GoogleApiClient.Builder(mContext)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
 
-            mLocationClient = new LocationClient(mContext, this, this);
         }
         return mLocationClient;
     }
 
     /**
      * When the request to remove geofences by PendingIntent returns, handle the result.
-     *
-     * @param statusCode the code returned by Location Services
-     * @param requestIntent The Intent used to request the removal.
      */
     @Override
-    public void onRemoveGeofencesByPendingIntentResult(int statusCode,
-            PendingIntent requestIntent) {
-
+    public void onResult(Result result) {
         // Create a broadcast Intent that notifies other components of success or failure
         Intent broadcastIntent = new Intent();
 
         // If removing the geofences was successful
-        if (statusCode == LocationStatusCodes.SUCCESS) {
+        if (CommonStatusCodes.SUCCESS == result.getStatus().getStatusCode()) {
 
             // In debug mode, log the result
             Log.d(GeofenceUtils.APPTAG,
@@ -218,12 +214,12 @@ public class GeofenceRemover implements
 
             // Always log the error
             Log.e(GeofenceUtils.APPTAG,
-                    mContext.getString(R.string.remove_geofences_intent_failure, statusCode));
+                    mContext.getString(R.string.remove_geofences_intent_failure, result.getStatus()));
 
             // Set the action and add the result message
             broadcastIntent.setAction(GeofenceUtils.ACTION_GEOFENCE_ERROR);
             broadcastIntent.putExtra(GeofenceUtils.EXTRA_GEOFENCE_STATUS,
-                    mContext.getString(R.string.remove_geofences_intent_failure, statusCode));
+                    mContext.getString(R.string.remove_geofences_intent_failure, result.getStatus()));
         }
 
         // Broadcast the Intent to all components in this app
@@ -239,58 +235,6 @@ public class GeofenceRemover implements
      * @param statusCode The code returned by Location Services
      * @param geofenceRequestIds The IDs removed
      */
-    @Override
-    public void onRemoveGeofencesByRequestIdsResult(int statusCode, String[] geofenceRequestIds) {
-
-        // Create a broadcast Intent that notifies other components of success or failure
-        Intent broadcastIntent = new Intent();
-
-        // Temp storage for messages
-        String msg;
-
-        // If removing the geocodes was successful
-        if (LocationStatusCodes.SUCCESS == statusCode) {
-
-            // Create a message containing all the geofence IDs removed.
-            msg = mContext.getString(R.string.remove_geofences_id_success,
-                    Arrays.toString(geofenceRequestIds));
-
-            // In debug mode, log the result
-            Log.d(GeofenceUtils.APPTAG, msg);
-
-            // Create an Intent to broadcast to the app
-            broadcastIntent.setAction(GeofenceUtils.ACTION_GEOFENCES_REMOVED)
-                           .addCategory(GeofenceUtils.CATEGORY_LOCATION_SERVICES)
-                           .putExtra(GeofenceUtils.EXTRA_GEOFENCE_STATUS, msg);
-
-        } else {
-        // If removing the geocodes failed
-
-            /*
-             * Create a message containing the error code and the list
-             * of geofence IDs you tried to remove
-             */
-            msg = mContext.getString(
-                    R.string.remove_geofences_id_failure,
-                    statusCode,
-                    Arrays.toString(geofenceRequestIds)
-            );
-
-            // Log an error
-            Log.e(GeofenceUtils.APPTAG, msg);
-
-            // Create an Intent to broadcast to the app
-            broadcastIntent.setAction(GeofenceUtils.ACTION_GEOFENCE_ERROR)
-                           .addCategory(GeofenceUtils.CATEGORY_LOCATION_SERVICES)
-                           .putExtra(GeofenceUtils.EXTRA_GEOFENCE_STATUS, msg);
-        }
-
-        // Broadcast whichever result occurred
-        LocalBroadcastManager.getInstance(mContext).sendBroadcast(broadcastIntent);
-
-        // Disconnect the location client
-        requestDisconnection();
-    }
 
     /**
      * Get a location client and disconnect from Location Services
@@ -326,21 +270,6 @@ public class GeofenceRemover implements
         continueRemoveGeofences();
     }
 
-    /*
-     * Called by Location Services if the connection is lost.
-     */
-    @Override
-    public void onDisconnected() {
-
-        // A request is no longer in progress
-        mInProgress = false;
-
-        // In debug mode, log the disconnection
-        Log.d(GeofenceUtils.APPTAG, mContext.getString(R.string.disconnected));
-
-        // Destroy the current location client
-        mLocationClient = null;
-    }
 
     /*
      * Implementation of OnConnectionFailedListener.onConnectionFailed
@@ -389,5 +318,19 @@ public class GeofenceRemover implements
                                         connectionResult.getErrorCode());
             LocalBroadcastManager.getInstance(mContext).sendBroadcast(errorBroadcastIntent);
         }
+    }
+    @Override
+    public void onConnectionSuspended(int cause) {
+        // The connection to Google Play services was lost for some reason. We call connect() to
+        // attempt to re-establish the connection.
+        Log.i(TAG, "Connection suspended. Cause: " + cause );
+        // A request is no longer in progress
+        mInProgress = false;
+
+        // In debug mode, log the disconnection
+        Log.d(GeofenceUtils.APPTAG, mContext.getString(R.string.disconnected));
+
+        // Destroy the current location client
+        mLocationClient = null;
     }
 }

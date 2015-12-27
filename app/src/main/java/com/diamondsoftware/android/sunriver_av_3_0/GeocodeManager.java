@@ -402,8 +402,9 @@ public class GeocodeManager {
         private void handleGeofenceTransition(Context context, Intent intent) {
 
             String ids = intent.getStringExtra(GeofenceUtils.EXTRA_GEOFENCE_ID);
-            String transitionType = intent.getStringExtra(GeofenceUtils.EXTRA_GEOFENCE_TRANSITION_TYPE);
-            if(transitionType.equals("Entering")) {
+            int transitionType = intent.getIntExtra(GeofenceUtils.EXTRA_GEOFENCE_TRANSITION_TYPE,-322);
+
+            if(transitionType == Geofence.GEOFENCE_TRANSITION_ENTER) {
             	try {
 	            	String[] idArray=ids.split(","); 
 	            	ItemLocation theItemToPopup=mMainActivity.findFirstItemLocationWhoseIdIs(idArray[0]);
