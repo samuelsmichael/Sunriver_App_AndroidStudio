@@ -294,13 +294,14 @@ public class GeocodeManager {
         // Store this flat version in SharedPreferences
         mPrefs.setGeofence("99992", sg2);
 
+
         /*
          * Add Geofence objects to a List. toGeofence()
          * creates a Location Services Geofence object from a
          * flat object
          */
         mCurrentGeofences.add(sg2.toGeofence());
-        
+
         
         // Load the data fetched from the uri
 
@@ -309,24 +310,26 @@ public class GeocodeManager {
 				ArrayList<Object> aroo = (ArrayList<Object>)al;
 				for (Object theElement :aroo) {
 					ItemLocation location=(ItemLocation)theElement;
-					double latitude=Double.valueOf(location.getmGoogleCoordinates().getY());
-					double longitude=Double.valueOf(location.getmGoogleCoordinates().getX());
-			        SimpleGeofence sg = new SimpleGeofence(
-			                String.valueOf(location.getmId()),
-			                // Get latitude, longitude, and radius from the UI
-			                latitude,
-			                longitude,
-			                Float.valueOf(200),
-			                // Set the expiration time
-			                GEOFENCE_EXPIRATION_IN_MILLISECONDS,
-			                // Detect both entry and exit transitions
-			                Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT,
-			                location.getmName()
-			                );
+                    if(location.ismIsGPSPopup()) {
+                        double latitude = Double.valueOf(location.getmGoogleCoordinates().getY());
+                        double longitude = Double.valueOf(location.getmGoogleCoordinates().getX());
+                        SimpleGeofence sg = new SimpleGeofence(
+                                String.valueOf(location.getmId()),
+                                // Get latitude, longitude, and radius from the UI
+                                latitude,
+                                longitude,
+                                Float.valueOf(200),
+                                // Set the expiration time
+                                GEOFENCE_EXPIRATION_IN_MILLISECONDS,
+                                // Detect both entry and exit transitions
+                                Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT,
+                                location.getmName()
+                        );
 
-		            // Store this flat version in SharedPreferences
-		            mPrefs.setGeofence(String.valueOf(location.getmId()), sg);
-		            mCurrentGeofences.add(sg.toGeofence());
+                        // Store this flat version in SharedPreferences
+                        mPrefs.setGeofence(String.valueOf(location.getmId()), sg);
+                        mCurrentGeofences.add(sg.toGeofence());
+                    }
 				}
 			}
 		}

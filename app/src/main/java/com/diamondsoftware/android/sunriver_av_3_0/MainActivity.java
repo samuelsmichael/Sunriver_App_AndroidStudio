@@ -56,6 +56,7 @@ public class MainActivity extends AbstractActivityForListViewsNonscrollingImage 
 	public static boolean heresHowIChangeCameraFaceCleanly=false;
 
 	private String android_id;
+	private static boolean mGeocoderIsLoaded=false;
 	
 	/*
 	 * The "Sunriver graphic item doesn't come from fetch of all the other map
@@ -124,7 +125,8 @@ public class MainActivity extends AbstractActivityForListViewsNonscrollingImage 
 	
 	public static void setAllNonUriMapsDataIsLoaded() { // this means that we're all loaded, and it's time to create the GeoFences
 		AllNonUriMapsDataIsLoaded=true;
-		if(AllMapsUriLocationDataIsLoaded && mGeocodeManager!=null) {
+		if(AllMapsUriLocationDataIsLoaded && mGeocodeManager!=null && !mGeocoderIsLoaded) {
+			mGeocoderIsLoaded=true;
 			// load the GeocodeManager geofences
 			mGeocodeManager.enableGeocode();
 		}
@@ -132,7 +134,8 @@ public class MainActivity extends AbstractActivityForListViewsNonscrollingImage 
 	
 	public static void setAllMapsUriLocationDataIsLoaded() {
 		AllMapsUriLocationDataIsLoaded=true;
-		if(AllNonUriMapsDataIsLoaded&& mGeocodeManager!=null) { // this means that we're all loaded, and it's time to create the GeoFences
+		if(AllNonUriMapsDataIsLoaded&& mGeocodeManager!=null && !mGeocoderIsLoaded) { // this means that we're all loaded, and it's time to create the GeoFences
+			mGeocoderIsLoaded=true;
 			// load the GeocodeManager geofences
 			mGeocodeManager.enableGeocode();
 		}
@@ -140,10 +143,23 @@ public class MainActivity extends AbstractActivityForListViewsNonscrollingImage 
 	
 	@Override
 	protected void childOnCreate(Bundle savedInstanceState) {
+
 		((GlobalState)getApplicationContext()).gaSendView("Sunriver Navigator - Home Page");
 		android_id=Secure.getString(getContentResolver(),
                 Secure.ANDROID_ID);
 		mGeocodeManager = new GeocodeManager(this);
+		if(AllNonUriMapsDataIsLoaded) {
+			if(!mGeocoderIsLoaded) {
+				mGeocoderIsLoaded=true;
+				mGeocodeManager.enableGeocode();
+			}
+		}
+		if(AllMapsUriLocationDataIsLoaded) {
+			if(!mGeocoderIsLoaded) {
+				mGeocoderIsLoaded=true;
+				mGeocodeManager.enableGeocode();
+			}
+		}
 		mSingleton=this;
         String imageURL=getImageURL();
 		if(imageURL!=null && getImageId()!=0) {
@@ -639,8 +655,8 @@ public class MainActivity extends AbstractActivityForListViewsNonscrollingImage 
 				
 				
 				/*TODO PUBLISH*/
-				/* Use this when you've published 7/20/2015 version, or later, of the web app */	String uri=getResources().getString(R.string.urlfindhomejson);
-				/*  Use this when you're still using my web site   String uri=getResources().getString(R.string.urlfindhomejsontestremote); */
+				/* Use this when you've published 7/20/2015 version, or later, of the web app 	String uri=getResources().getString(R.string.urlfindhomejson);*/
+				/*  Use this when you're still using my web site */  String uri=getResources().getString(R.string.urlfindhomejsontestremote);
 				/* This one is for my testing in my office		String uri=getResources().getString(R.string.urlfindhomejsontestlocal); */  
 
 				ArrayList<Object> data = new JsonReaderFromRemotelyAcquiredJson(

@@ -46,8 +46,7 @@ public class GeofenceReceiver extends BroadcastReceiver { //LocalBroadcastManage
 	        // Log the error
 	        
 	        Log.e(GeofenceUtils.APPTAG,
-	                context.getString(R.string.geofence_transition_error_detail,
-	                        errorMessage));
+	                context.getString(R.string.geofence_transition_error_detail, errorMessage));
 	
 	        // Set the action and error message for the broadcast intent
 	        broadcastIntent
@@ -130,8 +129,7 @@ public class GeofenceReceiver extends BroadcastReceiver { //LocalBroadcastManage
             // An invalid transition was reported
         } else {
             
-            Log.e(GeofenceUtils.APPTAG,
-                    context.getString(R.string.geofence_transition_invalid_type,
+            Log.e(GeofenceUtils.APPTAG, context.getString(R.string.geofence_transition_invalid_type,
                             transition));
                             
         }
