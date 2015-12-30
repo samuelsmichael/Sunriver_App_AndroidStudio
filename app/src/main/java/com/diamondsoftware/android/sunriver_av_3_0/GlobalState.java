@@ -35,6 +35,8 @@ import com.google.android.gms.analytics.Tracker;
 )
 
 public class GlobalState extends Application  {
+	public static final String SENT_TOKEN_TO_SERVER = "sentTokenToServer";
+	public static final String REGISTRATION_COMPLETE = "registrationComplete";
 	public static boolean homePageNeedsRefreshing=false;
 	public static ArrayList<Object> TheItemsEmergency=null;
 	public ItemAlert theItemAlert=null;

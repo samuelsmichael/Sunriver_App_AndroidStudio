@@ -192,7 +192,6 @@ public class TimerService extends Service  implements DataGetter, WaitingForData
 
 	@Override
 	public IBinder onBind(Intent arg0) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

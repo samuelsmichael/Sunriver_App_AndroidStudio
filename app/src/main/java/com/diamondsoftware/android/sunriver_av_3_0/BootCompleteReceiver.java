@@ -15,5 +15,7 @@ public class BootCompleteReceiver extends BroadcastReceiver {
 //		logger.log("onReceived'd",999);
     	Intent jdItent2=new Intent(context, TimerService.class);
 		context.startService(jdItent2);
-	}	
+		Intent jdIntent3=new Intent(context,PushNotificationsManager.class);
+		context.startService((jdIntent3));
+	}
 }

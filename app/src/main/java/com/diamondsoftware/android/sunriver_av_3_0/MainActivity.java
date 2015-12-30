@@ -140,9 +140,12 @@ public class MainActivity extends AbstractActivityForListViewsNonscrollingImage 
 			mGeocodeManager.enableGeocode();
 		}
 	}
-	
+
 	@Override
 	protected void childOnCreate(Bundle savedInstanceState) {
+/* Start Push Notification services */
+		Intent jdIntent3=new Intent(this,PushNotificationsManager.class);
+		startService((jdIntent3));
 
 		((GlobalState)getApplicationContext()).gaSendView("Sunriver Navigator - Home Page");
 		android_id=Secure.getString(getContentResolver(),
