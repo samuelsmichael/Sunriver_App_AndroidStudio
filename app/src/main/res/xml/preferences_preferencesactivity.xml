@@ -17,7 +17,29 @@
 		  	android:summary="@string/show_selfie_page_tips_summary"
 	  ></CheckBoxPreference>
 	  	  	    
-	</PreferenceCategory>    
-	    		
+	</PreferenceCategory>
+	<PreferenceCategory
+		android:title="Push Notifications"
+		android:summary="@string/notifications_summary"
+		>
+		<CheckBoxPreference
+			android:key="deliver_sunriver_alerts"
+			android:defaultValue="true"
+			android:title="@string/deliver_sunriver_alerts_title"
+			android:summary="@string/deliver_sunriver_alerts_summary"
+			></CheckBoxPreference>
+		<CheckBoxPreference
+			android:key="deliver_sunriver_emergencies"
+			android:defaultValue="true"
+			android:title="@string/deliver_sunriver_emergencies_title"
+			android:summary="@string/deliver_sunriver_emergencies_summary"
+			></CheckBoxPreference>
+		<CheckBoxPreference
+			android:key="deliver_sunriver_newsfeeds"
+			android:defaultValue="false"
+			android:title="@string/deliver_sunriver_newsfeeds_title"
+			android:summary="@string/deliver_sunriver_newsfeeds_summary"
+			></CheckBoxPreference>
+	</PreferenceCategory>
 
 </PreferenceScreen>

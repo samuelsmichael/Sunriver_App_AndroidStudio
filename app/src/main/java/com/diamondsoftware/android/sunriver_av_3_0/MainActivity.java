@@ -190,10 +190,12 @@ public class MainActivity extends AbstractActivityForListViewsNonscrollingImage 
 
 	}
 
+	private boolean doTips=true;
 	@Override
 	protected void childOnCreate(Bundle savedInstanceState) {
 		if(getIntent()!=null && getIntent().getAction() != null &&  getIntent().getAction().equals("PushNotification")) {
 			managePushNotifications();
+			doTips=false;
 		}
 		/* Start Push Notification services */
 		Intent jdIntent3=new Intent(this,PushNotificationsManager.class);
@@ -221,7 +223,7 @@ public class MainActivity extends AbstractActivityForListViewsNonscrollingImage 
 			ImageLoader imageLoader=new ImageLoaderRemote(this,true,1f);
 			imageLoader.displayImage(imageURL,mImageView);
 		}
-		if(mSharedPreferences.getBoolean("show_home_page_tips", true)) {
+		if(mSharedPreferences.getBoolean("show_home_page_tips", true) && doTips) {
 			Intent intent=new Intent(MainActivity.this,ActivityTipsHomePage.class);
 			startActivity(intent);
 		}

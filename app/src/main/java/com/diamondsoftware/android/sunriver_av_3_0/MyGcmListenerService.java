@@ -1,14 +1,17 @@
 package com.diamondsoftware.android.sunriver_av_3_0;
 
+import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -47,12 +50,27 @@ public class MyGcmListenerService extends GcmListenerService {
          *     - Store message in local database.
          *     - Update UI.
          */
+        SharedPreferences sharedPreferences1 =
+                PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        /**
-         * In some cases it may be useful to show a notification indicating to the user
-         * that a message was received.
-         */
-        sendNotification(message, contentTitle, topic, emergencyMapURL);
+        SharedPreferences mSharedPreferences=getSharedPreferences(
+                getApplicationContext().getPackageName() + "_preferences"
+                , Activity.MODE_PRIVATE);
+        boolean doAlerts=mSharedPreferences.getBoolean("deliver_sunriver_alerts", true);
+        boolean doEmergencies=mSharedPreferences.getBoolean("deliver_sunriver_emergencies",true);
+        boolean doNewsFeeds=mSharedPreferences.getBoolean("deliver_sunriver_newsfeeds",false);
+        if(
+                ((topic.equals("alert") || topic.equals("alerttest")) && doAlerts)
+                || ((topic.equals("emergency") || topic.equals("emergencytest")) && doEmergencies)
+                || ((topic.equals("newsfeed") || topic.equals("newsfeedtest")) && doNewsFeeds)
+                ) {
+
+            /**
+             * Show a notification indicating to the user
+             * that a message was received.
+             */
+            sendNotification(message, contentTitle, topic, emergencyMapURL);
+        }
         // [END_EXCLUDE]
     }
     // [END receive_message]

@@ -198,6 +198,13 @@
     <string name="show_home_page_tips_summary">With this setting on, the system will display helpful tips on getting the best usage out of your Sunriver app.</string>
     <string name="show_selfie_page_tips_title">Show selfie page tips</string>
     <string name="show_selfie_page_tips_summary">With this setting on, the system will display helpful tips on getting the best usage out of your Selfie feature of Sunriver.</string>
-    
+    <string name="notifications_summary">The Sunriver Navigator App has the ability to deliver Push Notifications to your phone for Emergency, Alerts, and News Feeds</string>
+    <string name="deliver_sunriver_alerts_title">Deliver Sunriver Alerts</string>
+    <string name="deliver_sunriver_alerts_summary">With this setting on, the system will deliver Push Notifications for Alerts.  This is just like the Alerts that appear on the home page; except you\'ll get notified even if you are not currently utilizing the app.</string>
+    <string name="deliver_sunriver_emergencies_title">Deliver Sunriver emergency alerts</string>
+    <string name="deliver_sunriver_emergencies_summary">With this setting on, the system will deliver Push Notifications for Emergency notifications.  This is just like the Emergencies that appear on the home page; except you\'ll get notified even if you are not currently utilizing the app.</string>
+    <string name="deliver_sunriver_newsfeeds_title">Deliver Sunriver news feeds</string>
+    <string name="deliver_sunriver_newsfeeds_summary">With this setting on, the system will deliver Push Notifications for News Feeds.  This is just like the News Feeds that appear on the home page; except you\'ll get notified even if you are not currently utilizing the app.</string>
+
 
 </resources>
