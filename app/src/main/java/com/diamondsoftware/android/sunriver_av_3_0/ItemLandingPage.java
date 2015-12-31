@@ -1,7 +1,7 @@
 package com.diamondsoftware.android.sunriver_av_3_0;
 
 public class ItemLandingPage {
-	private int mId;
+	private long mId;
 	private String mName;
 	private String mDescription;
 	private String mIconName;
@@ -27,10 +27,10 @@ public class ItemLandingPage {
 		setDescription(description);
 		setIconName(iconName);
 	}
-	public int getId() {
+	public long getId() {
 		return mId;
 	}
-	public void setId(int id) {
+	public void setId(long id) {
 		mId=id;
 	}
 	public String getName() {

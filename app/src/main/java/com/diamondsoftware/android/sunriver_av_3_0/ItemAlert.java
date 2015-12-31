@@ -1,7 +1,7 @@
 package com.diamondsoftware.android.sunriver_av_3_0;
 
 public class ItemAlert {
-    private int mALID;
+    private long mALID;
     private String mALTitle;
     private String mALDescription;
     private boolean mIsOnAlert;
@@ -11,7 +11,7 @@ public class ItemAlert {
 	public void setmIsOnAlert(boolean mIsOnAlert) {
 		this.mIsOnAlert = mIsOnAlert;
 	}
-	public ItemAlert( int alid, String altitle, String alDescription) {
+	public ItemAlert( long alid, String altitle, String alDescription) {
 		mALID=alid;
 		mALTitle=altitle;
 		mALDescription=alDescription;
@@ -27,7 +27,7 @@ public class ItemAlert {
 	public void setmALDescription(String mALDescription) {
 		this.mALDescription = mALDescription;
 	}
-	public int getmALID() {
+	public long getmALID() {
 		return mALID;
 	}
 	public String getmALTitle() {

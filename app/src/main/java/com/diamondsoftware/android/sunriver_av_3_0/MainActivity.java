@@ -3,6 +3,7 @@ package com.diamondsoftware.android.sunriver_av_3_0;
 import java.io.File;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -141,9 +142,60 @@ public class MainActivity extends AbstractActivityForListViewsNonscrollingImage 
 		}
 	}
 
+	private void managePushNotifications() {
+
+		String topic=getIntent().getExtras().getString("PushNotificationTopic");
+		String title=getIntent().getExtras().getString("PushNotificationTitle");
+		String message=getIntent().getExtras().getString("PushNotificationMessage");
+		String emergencyMapURL=getIntent().getExtras().getString("PushNotificationEmergencyMapURL");
+
+		if(topic.equals("alert") || topic.equals("alerttest")) {
+			ItemAlert itemAlert=new ItemAlert( new Date().getTime(),title,message);
+			itemAlert.setmIsOnAlert(true);
+			if(topic.equals("alerttest")) {
+				((GlobalState)getApplicationContext()).theItemAlert=itemAlert;
+			}
+			new PopupAlert(this,itemAlert).createPopup();
+		}
+		if(topic.equals("newsfeed") || topic.equals("newsfeedtest")) {
+			ItemNewsFeed itemNewsFeed=new ItemNewsFeed(new Date().getTime(),title,message);
+			itemNewsFeed.setIsOnNewsFeedAlert(true);
+			if(topic.equals("newsfeedtest")) {
+				((GlobalState)getApplicationContext()).theItemNewsFeed=itemNewsFeed;
+			}
+			new PopupNewsFeed(this, itemNewsFeed).createPopup();
+		}
+		if(topic.equals("emergency") || topic.equals("emergencytest")) {
+			ItemEmergency itemEmergency=new ItemEmergency();
+			itemEmergency.setEmergencyAlert(true);
+			itemEmergency.setEmergencyDescription(message);
+			itemEmergency.setEmergencyId(Math.abs((int)new Date().getTime()));
+			itemEmergency.setEmergencyTitle(title);
+			if(emergencyMapURL!=null && !emergencyMapURL.trim().equals("")) {
+				itemEmergency.setHasMap(true);
+				itemEmergency.addMapURL(emergencyMapURL);
+			} else {
+				itemEmergency.setHasMap(false);
+			}
+			if(topic.equals("emergencytest")) {
+				if (((GlobalState) getApplicationContext()).TheItemsEmergency==null) {
+					((GlobalState) getApplicationContext()).TheItemsEmergency=new ArrayList<Object>();
+				}
+				((GlobalState) getApplicationContext()).TheItemsEmergency.add(itemEmergency);
+			}
+			new PopupEmergency(this, itemEmergency).createPopup();
+		}
+
+
+
+	}
+
 	@Override
 	protected void childOnCreate(Bundle savedInstanceState) {
-/* Start Push Notification services */
+		if(getIntent()!=null && getIntent().getAction() != null &&  getIntent().getAction().equals("PushNotification")) {
+			managePushNotifications();
+		}
+		/* Start Push Notification services */
 		Intent jdIntent3=new Intent(this,PushNotificationsManager.class);
 		startService((jdIntent3));
 
@@ -495,7 +547,7 @@ public class MainActivity extends AbstractActivityForListViewsNonscrollingImage 
 				ItemLandingPage emergencyItem=new ItemLandingPage();
 				emergencyItem.setDescription(((ItemEmergency)itemEmergency).getEmergencyDescription());
 				emergencyItem.setmIsStyleMarquee(true);
-				emergencyItem.setId(100000+((ItemEmergency)itemEmergency).getEmergencyId()); // I'll know which EmergencyItem to display using this technique (id-100000)
+				emergencyItem.setId((long)100000+((ItemEmergency)itemEmergency).getEmergencyId()); // I'll know which EmergencyItem to display using this technique (id-100000)
 				emergencyItem.setIconName("alertnew"); //TODO: get icon 
 				emergencyItem.setName(((ItemEmergency)itemEmergency).getEmergencyTitle());
 				emergencyItem.setmOtherInfo("EmergencyId:"+((ItemEmergency)itemEmergency).getEmergencyId());

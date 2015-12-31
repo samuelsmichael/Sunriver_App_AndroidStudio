@@ -230,7 +230,7 @@ public class TimerService extends Service  implements DataGetter, WaitingForData
 		}
 	}
 	
-	private void sendNotification(String emergencyTitle, String emergencyDescription, int idOfEmergency) {
+	private void sendNotification(String emergencyTitle, String emergencyDescription, long idOfEmergency) {
 
         // Create an explicit content Intent that starts the main Activity
         Intent notificationIntent =
@@ -277,7 +277,7 @@ public class TimerService extends Service  implements DataGetter, WaitingForData
         NotificationManager mNotificationManager =
             (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
-       	mNotificationManager.notify(idOfEmergency, builder.build());
+       	mNotificationManager.notify((int)idOfEmergency, builder.build());
     }
 
 	

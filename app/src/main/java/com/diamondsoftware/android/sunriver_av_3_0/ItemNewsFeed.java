@@ -1,7 +1,7 @@
 package com.diamondsoftware.android.sunriver_av_3_0;
 
 public class ItemNewsFeed {
-    private int newsFeedID;
+    private long newsFeedID;
     private String newsFeedTitle;
     private String newsFeedDescription;
     private boolean isOnNewsFeedAlert;
@@ -11,7 +11,7 @@ public class ItemNewsFeed {
 	public void setIsOnNewsFeedAlert(boolean isOnNewsFeedAlert) {
 		this.isOnNewsFeedAlert = isOnNewsFeedAlert;
 	}
-	public ItemNewsFeed( int id, String title, String description) {
+	public ItemNewsFeed( long id, String title, String description) {
 		newsFeedID=id;
 		newsFeedTitle=title;
 		newsFeedDescription=description;
@@ -27,7 +27,7 @@ public class ItemNewsFeed {
 	public void setnewsFeedDescription(String newsFeedDescription) {
 		this.newsFeedDescription = newsFeedDescription;
 	}
-	public int getnewsFeedID() {
+	public long getnewsFeedID() {
 		return newsFeedID;
 	}
 	public String getnewsFeedTitle() {

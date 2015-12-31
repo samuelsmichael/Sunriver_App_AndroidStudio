@@ -89,8 +89,17 @@ public class SplashPage extends Activity implements DataLoaderClient {
 		if(mCountDownTimer!=null) {
 			mCountDownTimer.cancel();
 		}
+		Intent mainActivityIntent=new Intent(SplashPage.this,MainActivity.class);
+		if(getIntent()!=null && getIntent().getAction() != null &&  getIntent().getAction().equals("PushNotification")) {
+			mainActivityIntent
+					.setAction("PushNotification")
+					.putExtra("PushNotificationMessage", getIntent().getExtras().getString("PushNotificationMessage"))
+					.putExtra("PushNotificationTitle",getIntent().getExtras().getString("PushNotificationTitle"))
+					.putExtra("PushNotificationEmergencyMapURL",getIntent().getExtras().getString("PushNotificationEmergencyMapURL"))
+					.putExtra("PushNotificationTopic",getIntent().getExtras().getString("PushNotificationTopic"));
+		}
 		startService(new Intent(SplashPage.this,TimerService.class));
-        startActivity(new Intent(SplashPage.this, MainActivity.class));
+        startActivity(mainActivityIntent);
         finish();
 	}
 	@Override

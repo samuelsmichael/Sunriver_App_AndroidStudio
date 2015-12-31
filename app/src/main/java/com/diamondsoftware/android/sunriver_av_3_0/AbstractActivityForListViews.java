@@ -88,42 +88,61 @@ public abstract class AbstractActivityForListViews extends AbstractActivityForMe
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mSingleton=this;
-		// check to see that we've gone Internet Connectivity
-	    ConnectivityManager connectivityManager 
-	          = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-	    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-	    ((GlobalState)getApplicationContext()).gotInternet= activeNetworkInfo != null && activeNetworkInfo.isConnected();
-		
-		setContentView(getViewId());
-		mImageView=(ImageView)this.findViewById(getImageId());
-		childOnCreate(savedInstanceState);
-        mList=(ListView)findViewById(getListViewId());
+		boolean launchedSplashPage=false;
+		/*
+			If we came from a user opening a Push Notification, then we need to check if the Splash page class exists.
+			If so, all we have to do is continue on; otherwise, we need to launch SplashPage.
+		 */
+		if(getIntent()!=null && getIntent().getAction() != null &&  getIntent().getAction().equals("PushNotification")) {
+			if (SplashPage.mSingleton == null) {
+				Intent intent=new Intent(this,SplashPage.class)
+						.setAction("PushNotification")
+						.putExtra("PushNotificationMessage", getIntent().getExtras().getString("PushNotificationMessage"))
+						.putExtra("PushNotificationTitle",getIntent().getExtras().getString("PushNotificationTitle"))
+						.putExtra("PushNotificationEmergencyMapURL",getIntent().getExtras().getString("PushNotificationEmergencyMapURL"))
+						.putExtra("PushNotificationTopic",getIntent().getExtras().getString("PushNotificationTopic"));
+				startActivity(new Intent(this, SplashPage.class));
+				launchedSplashPage=true;
+				finish();
+			}
+		}
+		if(!launchedSplashPage) {
+			mSingleton = this;
+			// check to see that we've gone Internet Connectivity
+			ConnectivityManager connectivityManager
+					= (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+			NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+			((GlobalState) getApplicationContext()).gotInternet = activeNetworkInfo != null && activeNetworkInfo.isConnected();
+
+			setContentView(getViewId());
+			mImageView = (ImageView) this.findViewById(getImageId());
+			childOnCreate(savedInstanceState);
+			mList = (ListView) findViewById(getListViewId());
         
         /*
          * The ListViewAdaper may have to fetch data asynchronously.  Creating it starts 
          * the fetch, and then gotMyData (below) - which is called asynchronously -- assigns
          * the ListView to the adapter.
          */
-        
-        // Click event for single list row
-        mList.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                    int position, long id) {
-            	if(AbstractActivityForListViews.this instanceof AbstractActivityForListViewsScrollingImage) {
-            		childOnItemClick(parent,view,position-1,id);         		
-            	} else {
-            		childOnItemClick(parent,view,position,id);
-            	}
-           	}
-        });
 
-        mAdapter=getListViewAdapter();
-        if(mAdapter instanceof ListViewAdapterLocalData ) {
-        	((ListViewAdapterLocalData)mAdapter).performDataFetch();
-        }
- 
+			// Click event for single list row
+			mList.setOnItemClickListener(new OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view,
+										int position, long id) {
+					if (AbstractActivityForListViews.this instanceof AbstractActivityForListViewsScrollingImage) {
+						childOnItemClick(parent, view, position - 1, id);
+					} else {
+						childOnItemClick(parent, view, position, id);
+					}
+				}
+			});
+
+			mAdapter = getListViewAdapter();
+			if (mAdapter instanceof ListViewAdapterLocalData) {
+				((ListViewAdapterLocalData) mAdapter).performDataFetch();
+			}
+		}
 	}
 	@Override
 	public void rebuildListBasedOnFavoritesSetting() {

@@ -29,11 +29,13 @@ public class MyGcmListenerService extends GcmListenerService {
     public void onMessageReceived(String from, Bundle data) {
         String message = data.getString("message");
         String contentTitle = data.getString("contentTitle");
+        String emergencyMapURL=data.getString("emergencyMapURL");
         Log.d(TAG, "From: " + from);
         Log.d(TAG, "Message: " + message);
-
+        String topic="";
         if (from.startsWith("/topics/")) {
             // message received from some topic.
+            topic=from.replace("/topics/","");
         } else {
             // normal downstream message.
         }
@@ -50,7 +52,7 @@ public class MyGcmListenerService extends GcmListenerService {
          * In some cases it may be useful to show a notification indicating to the user
          * that a message was received.
          */
-        sendNotification(message, contentTitle);
+        sendNotification(message, contentTitle, topic, emergencyMapURL);
         // [END_EXCLUDE]
     }
     // [END receive_message]
@@ -60,12 +62,14 @@ public class MyGcmListenerService extends GcmListenerService {
      *
      * @param message GCM message received.
      */
-    private void sendNotification(String message, String contentTitle) {
-        Intent intent = new Intent(this, SplashPage.class);
+    private void sendNotification(String message, String contentTitle, String topic, String emergencyMapURL) {
+        Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("message",message);
-        intent.putExtra("title",contentTitle);
-        intent.setAction("showmessage");
+        intent.putExtra("PushNotificationMessage", message);
+        intent.putExtra("PushNotificationTitle",contentTitle);
+        intent.putExtra("PushNotificationTopic",topic);
+        intent.putExtra("PushNotificationEmergencyMapURL",emergencyMapURL);
+        intent.setAction("PushNotification");
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 

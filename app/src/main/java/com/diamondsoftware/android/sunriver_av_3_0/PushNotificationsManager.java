@@ -29,12 +29,6 @@ public class PushNotificationsManager extends Service {
     }
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        // TODO: 12/30/2015 Perhaps I should check if things are already started
-        /*
-        boolean sentToken = sharedPreferences
-                        .getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
-        if (!sentToken) {
-         */
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -43,9 +37,9 @@ public class PushNotificationsManager extends Service {
                 boolean sentToken = sharedPreferences
                         .getBoolean(GlobalState.SENT_TOKEN_TO_SERVER, false);
                 if (sentToken) {
-                    Toast.makeText(PushNotificationsManager.this, "Success", Toast.LENGTH_LONG).show();
+                    Toast.makeText(PushNotificationsManager.this, "Sunriver Push Notifications enabled", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(PushNotificationsManager.this, "Failure", Toast.LENGTH_LONG).show();
+                    Toast.makeText(PushNotificationsManager.this, "Failed to enable Sunriver Push Notifcations", Toast.LENGTH_LONG).show();
                 }
             }
         };
@@ -54,13 +48,18 @@ public class PushNotificationsManager extends Service {
 
         if (checkPlayServices()) {
             // Start IntentService to register this application with GCM.
-            Intent intent2 = new Intent(this, RegistrationIntentService.class);
-            startService(intent2);
+            //I should check if things are already started
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            boolean sentToken = sharedPreferences
+                    .getBoolean(GlobalState.SENT_TOKEN_TO_SERVER, false);
+            if (!sentToken) {
+                Intent intent2 = new Intent(this, RegistrationIntentService.class);
+                startService(intent2);
+            }
+            // ATTENTION: This was auto-generated to implement the App Indexing API.
+            // See https://g.co/AppIndexing/AndroidStudio for more information.
+            client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
         }
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-
 
         return START_STICKY;
     }
