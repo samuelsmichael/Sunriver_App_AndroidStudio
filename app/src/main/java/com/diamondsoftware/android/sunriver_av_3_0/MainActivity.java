@@ -152,7 +152,7 @@ public class MainActivity extends AbstractActivityForListViewsNonscrollingImage 
 		if(topic.equals("alert") || topic.equals("alerttest")  || topic.equals("alerttestinternal")) {
 			ItemAlert itemAlert=new ItemAlert( new Date().getTime(),title,message);
 			itemAlert.setmIsOnAlert(true);
-			if(topic.equals("alerttest")) {
+			if(topic.equals("alerttest")||topic.equals("alerttestinternal")) {
 				((GlobalState)getApplicationContext()).theItemAlert=itemAlert;
 			}
 			new PopupAlert(this,itemAlert).createPopup();
@@ -160,7 +160,7 @@ public class MainActivity extends AbstractActivityForListViewsNonscrollingImage 
 		if(topic.equals("newsfeed") || topic.equals("newsfeedtest")  || topic.equals("newsfeedtestinternal")) {
 			ItemNewsFeed itemNewsFeed=new ItemNewsFeed(new Date().getTime(),title,message);
 			itemNewsFeed.setIsOnNewsFeedAlert(true);
-			if(topic.equals("newsfeedtest")) {
+			if(topic.equals("newsfeedtest")||topic.equals("newsfeedtestinternal")) {
 				((GlobalState)getApplicationContext()).theItemNewsFeed=itemNewsFeed;
 			}
 			new PopupNewsFeed(this, itemNewsFeed).createPopup();
