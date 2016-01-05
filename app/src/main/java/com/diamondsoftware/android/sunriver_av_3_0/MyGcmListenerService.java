@@ -60,9 +60,9 @@ public class MyGcmListenerService extends GcmListenerService {
         boolean doEmergencies=mSharedPreferences.getBoolean("deliver_sunriver_emergencies",true);
         boolean doNewsFeeds=mSharedPreferences.getBoolean("deliver_sunriver_newsfeeds",false);
         if(
-                ((topic.equals("alert") || topic.equals("alerttest")) && doAlerts)
-                || ((topic.equals("emergency") || topic.equals("emergencytest")) && doEmergencies)
-                || ((topic.equals("newsfeed") || topic.equals("newsfeedtest")) && doNewsFeeds)
+                ((topic.equals("alert") || topic.equals("alerttest")  || topic.equals("alerttestinternal")) && doAlerts)
+                || ((topic.equals("emergency") || topic.equals("emergencytest") || topic.equals("emergencytestinternal")) && doEmergencies)
+                || ((topic.equals("newsfeed") || topic.equals("newsfeedtest")|| topic.equals("newsfeedtestinternal")) && doNewsFeeds)
                 ) {
 
             /**

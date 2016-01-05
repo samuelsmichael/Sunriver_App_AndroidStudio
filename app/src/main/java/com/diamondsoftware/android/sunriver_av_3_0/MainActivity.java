@@ -149,7 +149,7 @@ public class MainActivity extends AbstractActivityForListViewsNonscrollingImage 
 		String message=getIntent().getExtras().getString("PushNotificationMessage");
 		String emergencyMapURL=getIntent().getExtras().getString("PushNotificationEmergencyMapURL");
 
-		if(topic.equals("alert") || topic.equals("alerttest")) {
+		if(topic.equals("alert") || topic.equals("alerttest")  || topic.equals("alerttestinternal")) {
 			ItemAlert itemAlert=new ItemAlert( new Date().getTime(),title,message);
 			itemAlert.setmIsOnAlert(true);
 			if(topic.equals("alerttest")) {
@@ -157,7 +157,7 @@ public class MainActivity extends AbstractActivityForListViewsNonscrollingImage 
 			}
 			new PopupAlert(this,itemAlert).createPopup();
 		}
-		if(topic.equals("newsfeed") || topic.equals("newsfeedtest")) {
+		if(topic.equals("newsfeed") || topic.equals("newsfeedtest")  || topic.equals("newsfeedtestinternal")) {
 			ItemNewsFeed itemNewsFeed=new ItemNewsFeed(new Date().getTime(),title,message);
 			itemNewsFeed.setIsOnNewsFeedAlert(true);
 			if(topic.equals("newsfeedtest")) {
@@ -165,7 +165,7 @@ public class MainActivity extends AbstractActivityForListViewsNonscrollingImage 
 			}
 			new PopupNewsFeed(this, itemNewsFeed).createPopup();
 		}
-		if(topic.equals("emergency") || topic.equals("emergencytest")) {
+		if(topic.equals("emergency") || topic.equals("emergencytest") || topic.equals("emergencytestinternal")) {
 			ItemEmergency itemEmergency=new ItemEmergency();
 			itemEmergency.setEmergencyAlert(true);
 			itemEmergency.setEmergencyDescription(message);
@@ -177,7 +177,7 @@ public class MainActivity extends AbstractActivityForListViewsNonscrollingImage 
 			} else {
 				itemEmergency.setHasMap(false);
 			}
-			if(topic.equals("emergencytest")) {
+			if(topic.equals("emergencytest") || topic.equals("emergencytestinternal")) {
 				if (((GlobalState) getApplicationContext()).TheItemsEmergency==null) {
 					((GlobalState) getApplicationContext()).TheItemsEmergency=new ArrayList<Object>();
 				}
