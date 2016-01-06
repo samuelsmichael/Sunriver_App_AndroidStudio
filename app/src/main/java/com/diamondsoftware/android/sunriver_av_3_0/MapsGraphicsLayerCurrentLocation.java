@@ -4,6 +4,8 @@ package com.diamondsoftware.android.sunriver_av_3_0;
 
 import android.app.Activity;
 import android.content.SharedPreferences.Editor;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,6 +24,20 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.location.LocationServices;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.List;
+
 /**
  * Manages the maps graphics data for the Current Location.  Uses Google's Play Services location api to set up a
  * location listener; and requests updates every UPDATE_INTERVAL_IN_SECONDS seconds.  If the location changes, then the 
@@ -202,12 +218,29 @@ public class MapsGraphicsLayerCurrentLocation extends MapsGraphicsLayer  impleme
 		if(arg0!=null) {
 			/*
 			 * So I don't keep flipping between sunriver and my Denver
-			 */
+
 			if(arg0.getLongitude()>-110) {
 				arg0.setLongitude(-121.438544);
 				arg0.setLatitude(43.88481);
 			}
+			*/
 			mCurrentLocation=arg0;
+			/*
+			try {
+				Geocoder g = new Geocoder(mActivity);
+				List<Address> addresses = g.getFromLocation(arg0.getLatitude(),
+						arg0.getLongitude(), 8);
+				for(Address a:addresses) {
+					if (a.getPostalCode() != null) {
+						//RegisterForAlert(a.getPostalCode());
+						break;
+					}
+				}
+
+			} catch (Exception e) {
+
+			}
+			*/
 			redrawGraphics();
 		}		
 	}

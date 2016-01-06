@@ -81,7 +81,12 @@ public class MyGcmListenerService extends GcmListenerService {
      * @param message GCM message received.
      */
     private void sendNotification(String message, String contentTitle, String topic, String emergencyMapURL) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent=null;
+        if(MainActivity.mSingleton==null) { //we're not in memory
+            intent = new Intent(this, SplashPage.class);
+        } else {
+            intent = new Intent(this, MainActivity.class);
+        }
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("PushNotificationMessage", message);
         intent.putExtra("PushNotificationTitle",contentTitle);

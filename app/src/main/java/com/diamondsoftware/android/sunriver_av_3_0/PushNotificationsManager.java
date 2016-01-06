@@ -24,6 +24,7 @@ public class PushNotificationsManager extends Service {
     private static final String TAG = "PushNotificationsManager";
     private GoogleApiClient client;
     private boolean mDeviceIsSupportedInPlayServices=true;
+    public static String mRegistrationToken;
 
     public PushNotificationsManager() {
     }
@@ -82,6 +83,7 @@ public class PushNotificationsManager extends Service {
     }
 
     public void onDestroy() {
+
         super.onDestroy();
     }
     @Override

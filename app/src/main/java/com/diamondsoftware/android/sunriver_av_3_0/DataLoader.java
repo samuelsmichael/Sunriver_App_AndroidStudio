@@ -384,7 +384,7 @@ public class DataLoader implements  DataGetter, WaitingForDataAcquiredAsynchrono
 					
 					/* Use this when you've published 7/22/2015 version, or later, of the web app    	String uri=mGlobalState.getResources().getString(R.string.urlupdatejson);*/
 					/*  Use this when you're still using my web site */  String uri=mGlobalState.getResources().getString(R.string.urlupdatejsontestremote);
-					/* This one is for my testing in my office		String uri=mGlobalState.getResources().getString(R.string.urlupdatejsontestlocal);  */
+					/* This one is for my testing in my office		String uri=mGlobalState.getResources().getString(R.string.urlupdatejsontestlocal);*/
 					
 															
 					ArrayList<Object> data = new JsonReaderFromRemotelyAcquiredJson(
@@ -518,7 +518,7 @@ public class DataLoader implements  DataGetter, WaitingForDataAcquiredAsynchrono
 																try {
 																/* Use this when you've published 7/20/2015 version, or later, of the web app  	String uri=mGlobalState.getResources().getString(R.string.urllanejson);*/
 																/*  Use this when you're still using my web site */	  String uri=mGlobalState.getResources().getString(R.string.urllanetestremote);
-																/* This one is for my testing in my office		String uri=mGlobalState.getResources().getString(R.string.urllanejsontestlocal); */
+																/* This one is for my testing in my office		String uri=mGlobalState.getResources().getString(R.string.urllanejsontestlocal);*/
 																											
 																		ArrayList<Object> data = new JsonReaderFromRemotelyAcquiredJson(
 																				new ParsesJsonLane(),
