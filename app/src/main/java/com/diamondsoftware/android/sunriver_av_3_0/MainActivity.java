@@ -152,7 +152,7 @@ public class MainActivity extends AbstractActivityForListViewsNonscrollingImage 
 		if(topic.equals("alert") || topic.equals("alerttest")  || topic.equals("alerttestinternal")) {
 			ItemAlert itemAlert=new ItemAlert( new Date().getTime(),title,message);
 			itemAlert.setmIsOnAlert(true);
-			if(topic.equals("alerttest")||topic.equals("alerttestinternal")) {
+			if(topic.equals("alerttest")||topic.equals("alerttestinternal")||topic.equals("alert")) {
 				((GlobalState)getApplicationContext()).theItemAlert=itemAlert;
 			}
 			new PopupAlert(this,itemAlert).createPopup();
@@ -160,7 +160,7 @@ public class MainActivity extends AbstractActivityForListViewsNonscrollingImage 
 		if(topic.equals("newsfeed") || topic.equals("newsfeedtest")  || topic.equals("newsfeedtestinternal")) {
 			ItemNewsFeed itemNewsFeed=new ItemNewsFeed(new Date().getTime(),title,message);
 			itemNewsFeed.setIsOnNewsFeedAlert(true);
-			if(topic.equals("newsfeedtest")||topic.equals("newsfeedtestinternal")) {
+			if(topic.equals("newsfeedtest")||topic.equals("newsfeedtestinternal")||topic.equals("newsfeed")) {
 				((GlobalState)getApplicationContext()).theItemNewsFeed=itemNewsFeed;
 			}
 			new PopupNewsFeed(this, itemNewsFeed).createPopup();
@@ -177,7 +177,7 @@ public class MainActivity extends AbstractActivityForListViewsNonscrollingImage 
 			} else {
 				itemEmergency.setHasMap(false);
 			}
-			if(topic.equals("emergencytest") || topic.equals("emergencytestinternal")) {
+			if(topic.equals("emergencytest") || topic.equals("emergencytestinternal") || topic.equals("emergency")) {
 				if (((GlobalState) getApplicationContext()).TheItemsEmergency==null) {
 					((GlobalState) getApplicationContext()).TheItemsEmergency=new ArrayList<Object>();
 				}
