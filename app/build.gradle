@@ -2,16 +2,16 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 22
     buildToolsVersion "23.0.0"
 
 
     defaultConfig {
         applicationId "com.diamondsoftware.android.sunriver_av_3_0"
         minSdkVersion 15
-        targetSdkVersion 23
-        versionCode 29
-        versionName "5.1"
+        targetSdkVersion 22
+        versionCode 30
+        versionName "5.2"
     }
 
     signingConfigs {
@@ -51,7 +51,7 @@ dependencies {
     compile 'ch.acra:acra:4.5.0'
     /*compile 'org.apache.httpcomponents:httpclient:4.3.3'*/
     compile 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
-    compile 'com.android.support:support-v4:23.0.0'
+    compile 'com.android.support:support-v4:22.0.0'
     /*compile 'com.google.android.gms:play-services:5.0.89'*/
   /*  compile 'com.google.android.gms:play-services:8.3.0' */
 
@@ -61,7 +61,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-appindexing:8.3.0'
     compile 'com.google.android.gms:play-services-base:8.3.0'
 
-    compile files('libs/acra-4.5.0.jar')
+//    compile files('libs/acra-4.5.0.jar')
     /*compile files('libs/libGoogleAnalyticsServices.jar')*/
-    compile 'com.esri.arcgis.android:arcgis-android:10.2.6-2'
+    compile 'com.esri.arcgis.android:arcgis-android:10.2.8'
 }
