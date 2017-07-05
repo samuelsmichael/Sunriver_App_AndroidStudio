@@ -18,7 +18,8 @@ public class RegistrationIntentService extends IntentService {
     private static final String TAG = "RegIntentService";
     /*TODO PUBLISH*/
     /* Take out the "internal" ones, and the "test" ones */
-    private static final String[] TOPICS = {"emergency", "alert", "newsfeed", "global", "alerttest","emergencytest","newsfeedtest", "alerttestinternal", "emergencytestinternal","newsfeedtestinternal"};
+ //   private static final String[] TOPICS = {"emergency", "alert", "newsfeed", "global", "alerttest","emergencytest","newsfeedtest", "alerttestinternal", "emergencytestinternal","newsfeedtestinternal"};
+    private static final String[] TOPICS = {"emergency", "alert", "newsfeed", "global"};
 
     public RegistrationIntentService() {
         super(TAG);

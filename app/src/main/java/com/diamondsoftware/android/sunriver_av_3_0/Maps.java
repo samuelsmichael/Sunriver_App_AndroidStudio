@@ -415,8 +415,13 @@ public class Maps extends AbstractActivityForMenu {
 	}
 	private void refreshCacheIfNecessary() {
 		if (mapCacheNeedsRenewing()) {
-			mImInTheMiddleOfFetchingDataForACacheSoDontDoItAgain=true;			
-			startTheCacheRefresh();
+			mImInTheMiddleOfFetchingDataForACacheSoDontDoItAgain=true;
+			try {
+				startTheCacheRefresh();
+			} catch (Exception e) {
+				mImInTheMiddleOfFetchingDataForACacheSoDontDoItAgain=false;
+				return;
+			}
 			if (WANT_MAPCACHE_MESSAGES)
 		        runOnUiThread(new Runnable() {
 		          //@Override

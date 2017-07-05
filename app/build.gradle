@@ -5,13 +5,12 @@ android {
     compileSdkVersion 22
     buildToolsVersion "23.0.0"
 
-
     defaultConfig {
         applicationId "com.diamondsoftware.android.sunriver_av_3_0"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 30
-        versionName "5.2"
+        versionCode 32
+        versionName "5.3"
     }
 
     signingConfigs {
@@ -29,6 +28,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
             zipAlignEnabled true
+            debuggable false
+        }
+        debug {
+            applicationIdSuffix ".debug"
+            debuggable true
         }
     }
     packagingOptions {
@@ -42,7 +46,7 @@ repositories {
     jcenter()
     // Add the following ArcGIS repository
     maven {
-        url 'http://dl.bintray.com/esri/arcgis'
+        url 'https://esri.bintray.com/arcgis'
     }
 }
 
@@ -63,5 +67,5 @@ dependencies {
 
 //    compile files('libs/acra-4.5.0.jar')
     /*compile files('libs/libGoogleAnalyticsServices.jar')*/
-    compile 'com.esri.arcgis.android:arcgis-android:10.2.8'
+    compile 'com.esri.arcgis.android:arcgis-android:10.2.9'
 }

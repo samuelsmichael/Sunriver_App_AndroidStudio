@@ -119,7 +119,7 @@ public class GlobalState extends Application  {
 		  }
 	  HashMap<TrackerName, Tracker> mTrackers = new HashMap<TrackerName, Tracker>();
 	  public void gaSendView(String screenName) {
-		  /* TODO PUBLISH   Uncomment out this code:
+		  /* TODO PUBLISH   Uncomment out this code:*/
 	        // Get tracker.
 	        Tracker t = getTracker(TrackerName.APP_TRACKER);
 
@@ -129,7 +129,7 @@ public class GlobalState extends Application  {
 
 	        // Send a screen view.
 	        t.send(new HitBuilders.AppViewBuilder().build());
-	        */
+
 	  }
 
 }
